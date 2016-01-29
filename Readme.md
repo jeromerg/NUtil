@@ -1,3 +1,5 @@
+Status: [![Build status](https://ci.appveyor.com/api/projects/status/qyv19h4032npis5v/branch/master?svg=true)](https://ci.appveyor.com/project/jeromerg/nutil/branch/master) [![NuGet](https://img.shields.io/nuget/dt/NUtil.svg)](https://www.nuget.org/packages/NUtil/)
+
 NUtil
 =====
 
