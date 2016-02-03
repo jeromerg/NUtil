@@ -40,6 +40,7 @@ namespace NUtil.Linq
             [NotNull] TKey key)
             where T : IEnumerable
         {
+            if (dictEnumerable == null) throw new ArgumentNullException("dictEnumerable");
             if (key == null) throw new ArgumentNullException("key");
 
             foreach (Dictionary<TKey, T> dict in dictEnumerable)
