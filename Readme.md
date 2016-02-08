@@ -1,6 +1,6 @@
 Status: [![Build status](https://ci.appveyor.com/api/projects/status/qyv19h4032npis5v/branch/master?svg=true)](https://ci.appveyor.com/project/jeromerg/nutil/branch/master) [![NuGet](https://img.shields.io/nuget/dt/NUtil.svg)](https://www.nuget.org/packages/NUtil/)
 
-(Related project: [NCase])
+(Related project: [NCase], [NDocUtil])
 
 NUtil
 =====
@@ -334,5 +334,6 @@ After :I was originally indented!
 ```
 
 
-[NCase]: https://github.com/jeromerg/NCase
+[NCase]: http://github.com/jeromerg/NCase
+[NDocUtil]: http://github.com/jeromerg/NDocUtil
 [pair]: http://en.wikipedia.org/wiki/All-pairs_testing
