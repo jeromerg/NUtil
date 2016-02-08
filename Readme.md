@@ -1,9 +1,11 @@
 Status: [![Build status](https://ci.appveyor.com/api/projects/status/qyv19h4032npis5v/branch/master?svg=true)](https://ci.appveyor.com/project/jeromerg/nutil/branch/master) [![NuGet](https://img.shields.io/nuget/dt/NUtil.svg)](https://www.nuget.org/packages/NUtil/)
 
+(Related project: [NCase])
+
 NUtil
 =====
 
-Various C# Utility classes, that were initially developed for the [NCase] project.
+Various C# Utility classes initially developed for the [NCase] project.
 
 Installation
 ------------
