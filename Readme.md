@@ -41,7 +41,7 @@ Here is the list of utilities:
 ### Pairwise Generator 
 <a name="pairwise"></a>
 
-Considering a list of discrete and finite sets, the `PairwiseGenerator ` generates a list of tuples ensuring that all pairs between all sets pairwise appear at least once. 
+Consider (S1, S2 ... Sn) n finite sets, the `PairwiseGenerator` generates an enumeration of tuples (s1, s2 ... sn) which ensures that any pair (si, sj) from any pair of set (Si, Sj) appears at least once. 
 
 <!--# PairwiseGenerator -->
 ```C#
@@ -67,14 +67,12 @@ Tuple #6:  0, 0, 1
 Tuple #7:  0, 1, 0
 ```
  
-This pairwise generator is used in [NCase] as an alternative to the default cartesian product, in order to reduce the amount of generated test cases. More about pairwise testing [here][pair].
+This pairwise generator is used in [NCase] as an alternative to the default cartesian product, in order to reduce the amount of generated test cases. More about pairwise testing [here][pair] and [there][pair2].
 
 #### About the algorithm
-- The implementation is very compact: the main algorithm contains only 51 lines of code 
-- Simple tests show good results
-	- The algorithm tries to distribute the re-use of pairs among the whole set of pairs, by introducing a concept of generations
-	- Further quantitative and qualitative analysis are required to evaluate precisely the properties of the algorithm
-- Simple tests show good performance: The generation of tuple is lazy, resulting in low initial pre-processing time. Only the available set of pairs have to be generated at startup time.
+- The algorithm tries to distribute the re-use of pairs among the whole set of pairs
+- The generation of tuple is lazy, resulting in low initial pre-processing time (only the available set of pairs is generated at startup time)
+- Further quantitative and qualitative analysis as well as comparison with existing algorithms would be required to precisely evaluate the properties of the algorithm
 
 ### ForEach (Linq)
 <a name="foreach"></a>
@@ -93,7 +91,7 @@ Output:
 0123456789
 ```
 
-The following overload is a little bit more interesting, as it enables placing an action between the processing of the items:
+The following overload enables placing an action between the processing of the items:
 
 <!--# LinqForEachExtensions2 -->
 ```C#
@@ -108,7 +106,7 @@ Output:
 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 ```
 
-It is an alternative to the Linq `Aggregate(...)` function and the `string.Join(...)` static method, in order to perform aggregations. But the following usage has no counterpart in the C# framework:
+It is an alternative to the Linq `Aggregate(...)` function and the `string.Join(...)` static method, in order to perform aggregations. Following usage has no counterpart in the C# framework:
 
 <!--# LinqForEachExtensions3 -->
 ```C#
@@ -256,7 +254,7 @@ Streets in Lausanne: KeyNotFoundException has been thrown
 #### CascadeGetOrDefault
 <a name="cascadegetordefault"></a>
 
-So if you need a safe get implementation, you can use the `.CascadeGetOrDefault()` extension method:
+If you need a safe get implementation, you can use the `.CascadeGetOrDefault()` extension method:
 
 <!--# CascadeExtensions_CascadeGetOrDefault -->
 ```C#
@@ -337,3 +335,4 @@ After :I was originally indented!
 [NCase]: http://github.com/jeromerg/NCase
 [NDocUtil]: http://github.com/jeromerg/NDocUtil
 [pair]: http://en.wikipedia.org/wiki/All-pairs_testing
+[pair2]: http://msdn.microsoft.com/en-us/library/cc150619.aspx
