@@ -89,9 +89,9 @@ namespace NUtil.Test.Math.Combinatorics
         }
 
         [Test]
-        [TestCase(new[] {1, 1})]
+        //[TestCase(new[] {1, 1})]
         [TestCase(new[] {1, 1, 1})]
-        [TestCase(new[] {1, 1, 1, 1, 1, 1, 1, 1})]
+        //[TestCase(new[] {1, 1, 1, 1, 1, 1, 1, 1})]
         public void TestSingleTuple(int[] dimSizes)
         {
             int[][] tuples = Generate(dimSizes);

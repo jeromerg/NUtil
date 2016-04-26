@@ -19,9 +19,14 @@ namespace NUtil.Math.Combinatorics.Pairwise
             if (dimSizes.Any(s => s <= 0))
                 throw new ArgumentOutOfRangeException("dimSizes", "Some dimension has no value");
 
-            var pairGenerations = new List<PairSet> {new PairSet(dimSizes)};
+            // Generates all existing pairs
+            var pairSet = new PairSet(dimSizes);
 
-            // while any pair exists in first generation (unused pair)
+            // Assigns pairs to the first generation
+            // the first generation contains all pairs, that have not be used yet
+            var pairGenerations = new List<PairSet> {pairSet};
+
+            // Generates the tuples one by one until all pairs have been removed from the first generation
             // ReSharper disable once PossibleNullReferenceException
             while (pairGenerations.First().Any())
                 yield return GenerateNextTuple(dimSizes, pairGenerations);
@@ -46,34 +51,68 @@ namespace NUtil.Math.Combinatorics.Pairwise
                 // ReSharper disable once AssignNullToNotNullAttribute
                 Pair pair = TryPeakBestPair(pairGeneration, tuple);
                 if (pair == null)
-                    continue;
+                    continue; // try to freeze dims in next generation
 
-                // Get next generation 
-                PairSet nextGeneration = GetOrCreateNextGeneration(generations, generationIndex);
+                MoveAppearingPairsToNextGeneration(generations, tuple, pair, generationIndex);
 
-                // move pair to next generation
-                // ReSharper disable once PossibleNullReferenceException
-                pairGeneration.Remove(pair);
-                nextGeneration.Add(pair);
-
-                // remove all pair built with the one or two new dimValues to next generation
-                foreach (DimValue dimValue in tuple.FrozenDimValues)
-                {
-                    // ReSharper disable once PossibleNullReferenceException
-                    var p1 = new Pair(dimValue.Dim, dimValue.Val, pair.Dim1, pair.Val1);
-                    var p2 = new Pair(dimValue.Dim, dimValue.Val, pair.Dim2, pair.Val2);
-                    pairGeneration.Remove(p1);
-                    pairGeneration.Remove(p2);
-                    nextGeneration.Add(p1);
-                    nextGeneration.Add(p2);
-                }
-
-                // add the one or two new dimValues
+                // Add the newly frozen dimensions to tuple
                 tuple.Add(pair.Dim1, pair.Val1);
                 tuple.Add(pair.Dim2, pair.Val2);
+
                 return;
             }
             throw new ArgumentException("This case should never happen");
+        }
+
+        private void MoveAppearingPairsToNextGeneration([NotNull, ItemNotNull] List<PairSet> generations,
+                                                        [NotNull] Tuple tuple,
+                                                        [NotNull] Pair pair,
+                                                        int generationIndex)
+        {
+            bool isDim1New = tuple.Result[pair.Dim1] == -1;
+            bool isDim2New = tuple.Result[pair.Dim2] == -1;
+
+            if(isDim1New && isDim2New)
+                MovePairToNextGeneration(pair, generations, generationIndex);
+
+            foreach (DimValue dimValue in tuple.FrozenDimValues)
+            {
+                if (isDim1New)
+                {
+                    // ReSharper disable once PossibleNullReferenceException
+                    var p1 = new Pair(dimValue.Dim, dimValue.Val, pair.Dim1, pair.Val1);
+                    MovePairToNextGeneration(p1, generations, generationIndex);
+                }
+
+                if (isDim2New)
+                {
+                    // ReSharper disable once PossibleNullReferenceException
+                    var p2 = new Pair(dimValue.Dim, dimValue.Val, pair.Dim2, pair.Val2);
+                    MovePairToNextGeneration(p2, generations, generationIndex);
+                }
+            }
+        }
+
+        private void MovePairToNextGeneration([NotNull] Pair pair,
+                                              [NotNull, ItemNotNull] List<PairSet> generations,
+                                              int generationIndexStart)
+        {
+            for (int generationIndex = generationIndexStart; generationIndex < generations.Count; generationIndex++)
+            {
+                PairSet pairGeneration = generations[generationIndex];
+
+                // ReSharper disable once PossibleNullReferenceException
+                bool removed = pairGeneration.Remove(pair);
+                if (!removed)
+                    continue;
+
+                PairSet nextGeneration = GetOrCreateNextGeneration(generations, generationIndex);
+                // ReSharper disable once PossibleNullReferenceException
+                nextGeneration.Add(pair);
+                return;
+            }
+
+            throw new ArgumentException("pair was not found within the generations >= " + generationIndexStart);
         }
 
         [CanBeNull]

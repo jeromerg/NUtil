@@ -37,7 +37,7 @@
 
         public override string ToString()
         {
-            return string.Format("dim1 ({0}, {1}) dim2: ({2}, {3})", mDim1, mVal1, mDim2, mVal2);
+            return string.Format("(dim1, val1):({0}, {1}), (dim2, val2): ({2}, {3})", mDim1, mVal1, mDim2, mVal2);
         }
     }
 }

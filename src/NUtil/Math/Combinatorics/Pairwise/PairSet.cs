@@ -96,18 +96,21 @@ namespace NUtil.Math.Combinatorics.Pairwise
                        : null;
         }
 
-        public void Remove([NotNull] Pair pair)
+        public bool Remove([NotNull] Pair pair)
         {
             if (pair == null) throw new ArgumentNullException("pair");
-            Remove(pair.Dim1, pair.Val1, pair.Dim2, pair.Val2);
+            return Remove(pair.Dim1, pair.Val1, pair.Dim2, pair.Val2);
         }
 
-        public void Remove(int dim1, int val1, int dim2, int val2)
+        public bool Remove(int dim1, int val1, int dim2, int val2)
         {
             // ReSharper disable AssignNullToNotNullAttribute
-            mPairs.CascadeRemove(dim1).CascadeRemove(dim2).CascadeRemove(val1).CascadeRemove(val2);
-            mPairs.CascadeRemove(dim2).CascadeRemove(dim1).CascadeRemove(val2).CascadeRemove(val1);
+            bool removed;
+            removed = mPairs.CascadeRemove(dim1).CascadeRemove(dim2).CascadeRemove(val1).CascadeRemove(val2);
+            removed |= mPairs.CascadeRemove(dim2).CascadeRemove(dim1).CascadeRemove(val2).CascadeRemove(val1);
             // ReSharper restore AssignNullToNotNullAttribute            
+
+            return removed;
         }
 
         public override string ToString()
